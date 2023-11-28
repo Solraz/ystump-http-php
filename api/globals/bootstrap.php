@@ -20,13 +20,9 @@ function require_all_configs(): array
     if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === "php") {
       ob_start();
 
-      $data = [];
+      include_once $file;
 
-      $content = include_once $file;
-
-      $content = $data ?: [];
-
-      $vars[basename($file, ".php")] = $content;
+      $vars[basename($file, ".php")] = $data;
 
       ob_end_clean();
     }
