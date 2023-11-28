@@ -7,6 +7,10 @@ require_once ROOT . "/globals/core_functions/debugging.php";
  */
 $app_state = [];
 
+/**
+ * @var function
+ * @return array
+ */
 function require_all_configs(): array
 {
   $vars = [];
