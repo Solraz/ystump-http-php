@@ -52,13 +52,17 @@ switch (ENVIRONMENT) {
 try {
   require_once ROOT . "/globals/bootstrap.php";
 } catch (Throwable $error) {
-  echo $error->getMessage();
+  echo "<pre>";
+  print_r($error->getTrace());
+  echo "</pre>";
   require_once ROOT . "/errors/404.php";
 }
 
 try {
   require_once ROOT . "/rest/index.php";
 } catch (Throwable $error) {
-  echo $error->getMessage();
+  echo "<pre>";
+  print_r($error->getTrace());
+  echo "</pre>";
   require_once ROOT . "/errors/404.php";
 }

@@ -25,12 +25,12 @@ $current_subdomain = "";
  */
 $function = "";
 
-$functions = new RecursiveDirectoryIterator(ROOT . "/rest/functions");
-$iterator = new RecursiveIteratorIterator($functions);
+$pages = new RecursiveDirectoryIterator(ROOT . "/rest/functions");
+$iterator = new RecursiveIteratorIterator($pages);
 $regex = new RegexIterator($iterator, "/^.+\.php$/i", RecursiveRegexIterator::GET_MATCH);
 
-foreach ($regex as $file => $value) {
-  $true_file = str_replace([ROOT, "/rest/functions/", "/rest/functions\\", "/rest/", "/rest\\", ".php"], "", $file);
+foreach ($regex as $page => $value) {
+  $true_file = str_replace([ROOT, "/rest/functions/", "/rest/functions\\", "/rest/", "/rest\\", ".php"], "", $page);
   $true_path = explode("\\", $true_file);
 
   if (count($true_path) > 1) {
@@ -90,6 +90,5 @@ $data = [
   "subdomain" => $current_subdomain,
   "function" => $function,
 ];
-
 
 return $data;
