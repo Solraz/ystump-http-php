@@ -40,9 +40,17 @@ $app_state = require_all_configs();
  * 
  * @return string|void
  */
-function run_function($subdomain, $route)
+function run_function($subdomain, $route, ...$vars)
 {
   global $app_state;
+
+  foreach ($vars as $var) {
+    if (gettype($var) !== "array") continue;
+
+    foreach ($var as $key => $value) {
+      $$key = $value;
+    }
+  }
 
   ob_start();
   include API_ROOT . "{$subdomain}{$route}.php";
@@ -53,16 +61,16 @@ function run_function($subdomain, $route)
 }
 
 /**
- * @param string|array
+ * @param string|array|boolean|int
  * @param int
  * 
  * @return string
  */
-function api_handling($response, $http = 200): string
+function api_handling($response, $http = 200): void
 {
   $type = gettype($response);
 
-  if ($type === "string") {
+  if ($type === "string" || $type == "array") {
     $response = ['response' => $response];
   }
 
@@ -72,12 +80,13 @@ function api_handling($response, $http = 200): string
 
   http_response_code($http);
 
+  header("Content-Type: application/json; charset=UTF-8");
+
   match ($http) {
-    200 => header("Content-Type: application/json; charset=UTF-8"),
+    200 => header("{$_SERVER['SERVER_PROTOCOL']} 200 OK"),
     404 => header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"),
     500 => header("{$_SERVER['SERVER_PROTOCOL']} 500 Server Error"),
   };
 
-  echo json_encode($response, JSON_UNESCAPED_UNICODE);
-  die;
+  echo json_encode($response, JSON_INVALID_UTF8_IGNORE);
 }

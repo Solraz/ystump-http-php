@@ -15,8 +15,8 @@ $function = $app_state['router']['function'] ?: "get";
  * @return string
  */
 match ($function) {
-  "get", "select" => run_function("/database/", "select"),
-  "add", "insert" => run_function("/database/", "insert"),
-  "del", "rem", "renove", "delete" => run_function("/database/", "delete"),
-  "change", "set", "edit" => run_function("/database/", "delete"),
+  "get", "select" => run_function("/database/", "select", ["table" => $table]),
+  "add", "insert" => run_function("/database/", "insert", ["table" => $table]),
+  "del", "rem", "renove", "delete" => run_function("/database/", "delete", ["table" => $table]),
+  "change", "set", "edit" => run_function("/database/", "delete", ["table" => $table]),
 };

@@ -56,7 +56,7 @@ try {
   echo "<pre>";
   print_r($error->getTrace());
   echo "</pre>";
-  require_once ROOT . "/errors/404.php";
+  require_once API_ROOT . "/rest/functions/errors/404.php";
 }
 
 try {
@@ -65,5 +65,5 @@ try {
   echo "<pre>";
   print_r($error->getTrace());
   echo "</pre>";
-  require_once ROOT . "/errors/404.php";
+  require_once ROOT . "/rest/functions/errors/404.php";
 }

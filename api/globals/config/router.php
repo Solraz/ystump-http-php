@@ -98,17 +98,21 @@ if ($function) {
  * @var string
  */
 $subdomain = "/" . implode("/", $full_path) . "/";
-
 if ($function) {
   $subdomain = str_replace($route, "", $subdomain);
 }
-
 if (!in_array($subdomain, $subdomains)) {
   $subdomain = "";
 }
 
+/**
+ * @var string
+ */
 $route = str_replace(ltrim($subdomain, "/"), "", $route);
 
+/**
+ * @var array
+ */
 $data = [
   "route" => $route,
   "routes" => $routes,
