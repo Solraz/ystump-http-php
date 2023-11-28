@@ -3,7 +3,7 @@
 /**
  * @var string
  */
-$route = $_REQUEST['route'] ?? "home";
+$route = $_REQUEST['route'] ?: "errors/404";
 
 /**
  * @var array
@@ -18,7 +18,7 @@ $subdomains = [];
 /**
  * @var string
  */
-$current_subdomain = "";
+$subdomain = "";
 
 /**
  * @var string
@@ -52,17 +52,27 @@ foreach ($regex as $page => $value) {
 
     $routes[] = "{$total_string}";
 
-    $total_subdomain_string = rtrim($total_subdomain_string, "/");
-    $subdomains[] = "{$total_subdomain_string}";
+    // $total_subdomain_string = rtrim($total_subdomain_string, "/");
+    $subdomains[] = "/{$total_subdomain_string}";
   } else {
     $routes[] = "{$true_path[0]}";
   }
 }
 
-$current_subdomain = explode("/", $route);
+/**
+ * @var array
+ */
+$full_path = explode("/", $route);
 
-$last = array_pop($current_subdomain);
-$path = implode("/", $current_subdomain);
+/**
+ * @var array
+ */
+$last = array_pop($full_path);
+
+/**
+ * @var string
+ */
+$path = implode("/", $full_path);
 
 if (!in_array($route, $routes)) {
   if (in_array($path, $routes)) {
@@ -75,19 +85,35 @@ if (!in_array($route, $routes)) {
   $route = $path . "/{$last}";
 }
 
-$subdomains = array_unique($subdomains);
+/**
+ * @var array
+ */
+$subdomains = [...array_unique($subdomains)];
 
-$current_subdomain = implode("/", $current_subdomain);
-
-if (!in_array($current_subdomain, $subdomains)) {
-  $current_subdomain = "";
+if ($function) {
+  array_pop($full_path);
 }
+
+/**
+ * @var string
+ */
+$subdomain = "/" . implode("/", $full_path) . "/";
+
+if ($function) {
+  $subdomain = str_replace($route, "", $subdomain);
+}
+
+if (!in_array($subdomain, $subdomains)) {
+  $subdomain = "";
+}
+
+$route = str_replace(ltrim($subdomain, "/"), "", $route);
 
 $data = [
   "route" => $route,
   "routes" => $routes,
   "subdomains" => $subdomains,
-  "subdomain" => $current_subdomain,
+  "subdomain" => $subdomain,
   "function" => $function,
 ];
 

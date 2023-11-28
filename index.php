@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 $root = str_replace("/index.php", "", $_SERVER['PHP_SELF']);
 define('ROOT', "{$_SERVER['DOCUMENT_ROOT']}$root");
+define('API_ROOT', "{$_SERVER['DOCUMENT_ROOT']}$root/rest/functions");
 
 /**
  * @var array
