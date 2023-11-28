@@ -19,8 +19,8 @@ $dev_db = [
 $db = [
   "host" => "localhost",
   "port" => "3306",
-  "user" => "root",
-  "pass" => "",
+  "user" => APP_ENV["DB_USER"],
+  "pass" => APP_ENV["DB_PASS"],
   "database" => "survive",
   "charset" => "utf8"
 ];

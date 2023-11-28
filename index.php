@@ -10,6 +10,12 @@ $root = str_replace("/index.php", "", $_SERVER['PHP_SELF']);
 define('ROOT', "{$_SERVER['DOCUMENT_ROOT']}$root");
 
 /**
+ * @var array
+ */
+$app_env = parse_ini_file(ROOT . "/.env");
+define("APP_ENV", $app_env);
+
+/**
  * Sets timezone
  */
 if (!ini_get('date.timezone')) {
@@ -22,7 +28,7 @@ if (!ini_get('date.timezone')) {
 $end = explode('.', $_SERVER['SERVER_NAME']);
 $end = array_pop($end);
 
-if ($_SERVER['SERVER_NAME'] === 'localhost' || $end === 'app') {
+if ($_SERVER['SERVER_NAME'] === APP_ENV['DEV_URL'] || $end === APP_ENV['DEV_URL_ENDING']) {
   define('ENVIRONMENT', 'development');
 } else {
   define('ENVIRONMENT', 'production');

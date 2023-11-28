@@ -2,10 +2,6 @@
 
 require_once ROOT . "/globals/core_functions/debugging.php";
 
-$app_env = parse_ini_file(ROOT . "/.env");
-
-print_debugger($app_env);
-
 /**
  * @var array
  */
@@ -18,10 +14,12 @@ function require_all_configs(): array
   $files = glob(ROOT . "/globals/config" . "/*.php");
 
   foreach ($files as $file) {
-    if (is_file($file) && array_reverse(explode("/", $file))[0] !== "state.php") {
+    if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === "php") {
       ob_start();
 
-      $content = require_once $file;
+      $data = [];
+
+      $content = include_once $file;
 
       $content = $data ?? [];
 

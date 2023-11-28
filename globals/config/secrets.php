@@ -3,7 +3,7 @@
 /**
  * @var string
  */
-$sha_key = "uheheblxcSjuUf4ouYeWPQ==";
+$sha_key = APP_ENV['SHA_KEY'];
 
 /**
  * @var array
